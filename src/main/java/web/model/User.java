@@ -1,14 +1,14 @@
 package web.model;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
@@ -19,19 +19,18 @@ public class User {
     public User(){
     }
 
-    public User(int id, String firstName, String lastName, String email) {
+    public User(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
 
-    public int getId() {
-        System.out.println(id);
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

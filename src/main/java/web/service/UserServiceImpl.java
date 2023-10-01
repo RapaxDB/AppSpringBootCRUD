@@ -2,40 +2,38 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import web.dao.UserDao;
 import web.model.User;
+import web.repository.UserRepository;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
     @Autowired
-    UserDao userDao;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     @Override
     public void addUser(User user) {
-        userDao.addUser(user);
+        userRepository.saveAndFlush(user);
     }
-
     @Override
-    public void deleteUser(int id) {
-        userDao.deleteUser(id);
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
-
     @Override
-    public User getUserById(int id) {
-        return userDao.getUserById(id);
+    public User getUserById(Long id) {
+        return userRepository.getReferenceById(id);
     }
 
     @Override
     public void editUser(User user) {
-        userDao.updateUser(user);
+        userRepository.saveAndFlush(user);
     }
-
-
     @Override
     public List<User> getUsers() {
-        return userDao.getUsers();
+        return userRepository.findAll();
     }
 }

@@ -1,16 +1,17 @@
 package web.controller;
 
-
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     UserService service;
+    @Autowired
     public UserController (UserService service) {
         this.service = service;
     }
@@ -18,17 +19,17 @@ public class UserController {
     @GetMapping()
     public String printUsers(Model model) {
         model.addAttribute("list", service.getUsers());
-        return "users";
+        return "/users.html";
     }
 
     @GetMapping("/user")
-    public String printUser(@RequestParam(value = "id") int id, Model model) {
+    public String printUser(@RequestParam(value = "id") Long id, Model model) {
         model.addAttribute("user", service.getUserById(id));
         return "user";
     }
 
     @GetMapping("/user/edit")
-    public String editUser(@RequestParam(value = "id") int id, Model model) {
+    public String editUser(@RequestParam(value = "id") Long id, Model model) {
         model.addAttribute("user", service.getUserById(id));
         return "edit";
     }
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@RequestParam(value = "id") int id) {
+    public String deleteUser(@RequestParam(value = "id") Long id) {
         service.deleteUser(id);
         return "redirect:/users";
     }
